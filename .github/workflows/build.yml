@@ -41,7 +41,12 @@ jobs:
           - securecore/recipe-securecore-zfs-main.yml
           - securecore/recipe-securecore-zfs-nvidia.yml
           - securecore/recipe-securecore-zfs-nvidia-open.yml
-
+          - iot/recipe-iot-main.yml
+          - iot/recipe-iot-nvidia.yml
+          - iot/recipe-iot-nvidia-open.yml
+          - iot/recipe-iot-zfs-main.yml
+          - iot/recipe-iot-zfs-nvidia.yml
+          - iot/recipe-iot-zfs-nvidia-open.yml
     steps:
       - name: Checkout repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -54,7 +59,7 @@ jobs:
           echo "BASE_IMAGE_NAME=$(echo $BASE_IMAGE | sed 's/.*\/.*\///')" >> $GITHUB_ENV
 
       - name: Verify base image
-        if: ${{ ! contains(env.IMAGE_NAME, 'securecore') }}
+        if: ${{ ! contains(env.IMAGE_NAME, 'securecore') && ! contains(env.IMAGE_NAME, 'iot') }}
         uses: EyeCantCU/cosign-action/verify@58722a084c82190b57863002d494c91eabbe9e79 # v0.3.0
         with:
           containers: ${{ env.BASE_IMAGE_NAME }}:${{ env.IMAGE_MAJOR_VERSION }}
